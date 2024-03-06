@@ -5,7 +5,9 @@ char	*ft_strdup(const char *src, size_t len)
 	char	*dst;
 	size_t	i;
 
-	dst = (char *)malloc(len);
+	if (!src || !len)
+		return (NULL);
+	dst = (char *)malloc(sizeof(char) * len);
 	if (!dst)
 		return (NULL);
 	i = 0;
@@ -18,7 +20,7 @@ char	*ft_strdup(const char *src, size_t len)
 	return (dst);
 }
 
-char	*ft_strjoin(char const *line, char const *buf, size_t size)
+char	*ft_strjoin(char *line, char *buf, size_t size)
 {
 	char	*res;
 	size_t	len;
@@ -30,7 +32,7 @@ char	*ft_strjoin(char const *line, char const *buf, size_t size)
 	j = 0;
 	if (!line || !buf)
 		return (NULL);
-	len = ft_strlen(line) + size + 1;
+	len = (ft_strlen(line) + size + 1);
 	res = malloc(len);
 	if (!res)
 		return (NULL);
@@ -40,7 +42,7 @@ char	*ft_strjoin(char const *line, char const *buf, size_t size)
 	while (j < size)
 		res[i++] = buf[j++];
 	res[i] = 0;
-	free((void *) line);
+	free(line);
 	return (res);
 }
 

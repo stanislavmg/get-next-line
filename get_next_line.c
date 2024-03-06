@@ -4,23 +4,26 @@ char *get_next_line(int fd)
 {
     static char buf[BUFFER_SIZE];
     char *line;
-    size_t ch;
-    size_t i;
+    long ch;
+    long i;
 
     i = 0;
+	
 	line = get_line(buf);
-    while ((ch = read(fd, buf, BUFFER_SIZE)) > 0)
+	if (fd < 0 || !BUFFER_SIZE)
+		return (NULL);
+    while (0 > (ch = read(fd, buf, BUFFER_SIZE)))
     {
 		while (i < BUFFER_SIZE && i < ch)
 		{
-			if (buf[i] == '\n')
+			if ('\n' == buf[i] || BUFFER_SIZE == i + 1)
         	{
 				if (!line)
-            		line = ft_strdup(buf, i);
+            		line = ft_strdup(buf, (size_t)i);
 				else
-					ft_strjoin(line, buf, i);
+					ft_strjoin(line, buf, (size_t)i);
 				if (i < ch)
-					ft_memmove(buf, buf + i, ch - i);
+					ft_memmove(buf, buf + i, (size_t)(ch - i));
             	return (line);
         	}
 			i++;
