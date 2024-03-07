@@ -5,9 +5,9 @@ char	*ft_strdup(const char *src, size_t len)
 	char	*dst;
 	size_t	i;
 
-	if (!src || !len)
+	if (!src)
 		return (NULL);
-	dst = (char *)malloc(sizeof(char) * len);
+	dst = (char *)malloc(sizeof(char) * (len + 1));
 	if (!dst)
 		return (NULL);
 	i = 0;
@@ -33,7 +33,7 @@ char	*ft_strjoin(char *line, char *buf, size_t size)
 	if (!line || !buf)
 		return (NULL);
 	len = (ft_strlen(line) + size + 1);
-	res = malloc(len);
+	res = (char *)malloc(sizeof(char) * len);
 	if (!res)
 		return (NULL);
 	while (line[j])
