@@ -7,6 +7,8 @@ char	*ft_strdup(const char *src, size_t len)
 
 	if (!src)
 		return (NULL);
+	if (!len)
+		len++;
 	dst = (char *)malloc(sizeof(char) * (len + 1));
 	if (!dst)
 		return (NULL);
@@ -56,25 +58,17 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	ft_memmove(char *dst, char *src, size_t len)
 {
-	const char	*s;
-	char		*d;
+	size_t	i;
 
-	if (!dst && !src && len > 0)
-		return (dst);
-	d = dst;
-	s = src;
-	if (d < s)
+	if (!dst || !src)
+		return ;
+	i = 0;
+	while (i < len)
 	{
-		while (len--)
-			*d++ = *s++;
+		dst[i] = src[i];
+		i++;
 	}
-	else
-	{
-		while (len--)
-			d[len] = s[len];
-	}
-	d[len] = 0;
-	return (dst);
+	dst[i] = 0;
 }
