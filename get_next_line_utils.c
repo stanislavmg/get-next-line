@@ -32,8 +32,8 @@ char	*ft_strjoin(char *line, char *buf, size_t size)
 	res = NULL;
 	i = 0;
 	j = 0;
-	if (!line || !buf)
-		return (NULL);
+	if (!line)
+		return (ft_strdup(buf, size));
 	len = (ft_strlen(line) + size + 1);
 	res = (char *)malloc(sizeof(char) * len);
 	if (!res)
@@ -62,7 +62,7 @@ void	ft_memmove(char *dst, char *src, size_t len)
 {
 	size_t	i;
 
-	if (!dst || !src)
+	if (!dst || !src || !len)
 		return ;
 	i = 0;
 	while (i < len)
