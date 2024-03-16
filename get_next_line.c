@@ -9,36 +9,41 @@ char *get_next_line(int fd)
 
 	if (0 > fd || 0 >= BUFFER_SIZE || read(fd, buf, 0) < 0)
 		return (NULL);
-	i = 0;
-	line = get_line(buf);
-	ch = read(fd, buf, BUFFER_SIZE);
+	line = NULL;
+	ch = get_line(buf);
+	if (!ch)
+		ch = read(fd, buf, BUFFER_SIZE);
 	while (ch > 0)
 	{
-		while (i < BUFFER_SIZE)
+		i = 0;
+		while (i <= BUFFER_SIZE)
 		{
-			if ('\n' == buf[i] || i == ch)
+			if ('\n' == buf[i])
 			{
-				line = ft_strjoin(line, buf, (size_t)i + 1);
-				ft_memmove(buf, buf + i + 1, (size_t)(ch - i));
+				i++;
+				line = ft_strjoin(line, buf, (size_t)i);
+				ft_memmove(buf, buf + i, (size_t)(ch - i + 1));
 				return (line);
 			}
+			if (ch == i)
+				line = ft_strjoin(line, buf, (size_t)ch);
 			i++;
 		}
 		ch = read(fd, buf, BUFFER_SIZE);
 	}
-    return (NULL);
+    return (line);
 }
 
-char	*get_line(char *buf)
+long	get_line(char *buf)
 {
-	size_t	i;
+	long	i;
 
 	i = 0;
 	while (i < BUFFER_SIZE)
 	{
 		if (buf[i] == 0)
-			return (ft_strdup(buf, i));
+			return (i);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }

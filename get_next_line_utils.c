@@ -71,4 +71,10 @@ void	ft_memmove(char *dst, char *src, size_t len)
 		i++;
 	}
 	dst[i] = 0;
+	while (i < BUFFER_SIZE)
+	{
+		if (0 == dst[i])
+			dst[i] = 1;
+		i++;
+	}
 }
