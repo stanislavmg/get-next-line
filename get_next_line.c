@@ -18,20 +18,18 @@ char *get_next_line(int fd)
 		i = 0;
 		while (i < ch)
 		{
-			if ('\n' == buf[i])
+			if ('\n' == buf[i] || ch - 1 == i)
 			{
-				line = ft_strjoin(line, buf, (size_t)i + 1);
-				if (i + 1 < ch)	
-					ft_memmove(buf, buf + i + 1, (size_t)(ch - i));
-				return (line);
+				i++;
+				line = ft_strjoin(line, buf, (size_t)i);
+				ft_memmove(buf, buf + i, (size_t)(ch - i));
+				i = ft_strlen(line) - 1;
+				if ('\n' == line[i])
+					return (line);
 			}
-			else if (ch == i + 1)
-				line = ft_strjoin(line, buf, (size_t)ch);
 			i++;
-			printf("i=%ld\n", i);
 		}
 		ch = read(fd, buf, BUFFER_SIZE);
-		printf("ch=%ld\n", ch);
 	}
 	return (line);
 }

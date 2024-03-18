@@ -7,8 +7,6 @@ char	*ft_strdup(const char *src, size_t len)
 
 	if (!src)
 		return (NULL);
-	// if (!len)
-	// 	len++;
 	dst = (char *)malloc(sizeof(char) * (len + 1));
 	if (!dst)
 		return (NULL);
@@ -62,7 +60,7 @@ void	ft_memmove(char *dst, char *src, size_t len)
 {
 	size_t	i;
 
-	if (!dst || !src || !len)
+	if (!dst || !src)
 		return ;
 	i = 0;
 	while (i < len)
@@ -71,10 +69,9 @@ void	ft_memmove(char *dst, char *src, size_t len)
 		i++;
 	}
 	dst[i] = 0;
-	while (i < BUFFER_SIZE)
+	while (++i < BUFFER_SIZE)
 	{
 		if (0 == dst[i])
 			dst[i] = 1;
-		i++;
 	}
 }
