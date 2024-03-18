@@ -34,7 +34,7 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-long	get_line(char *buf)
+long	get_first_line(char *buf)
 {
 	long	i;
 

@@ -6,10 +6,9 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 char    *get_next_line(int fd);
-long	get_line(char *buf);
+long	get_first_line(char *buf);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *src, size_t len);
 void	ft_memmove(char *dst, char *src, size_t len);
