@@ -20,7 +20,7 @@ char *get_next_line(int fd)
 		ch = get_line(r_val, last_fd->str, ft_strlen(last_fd->str));
 		if (!ch)
 			del_list(last_fd);
-		else
+		if (r_val[ft_strlen(r_val) - 1] == '\n')
 			return (r_val);
 	}
 	count = read(fd, buf, BUFFER_SIZE);
