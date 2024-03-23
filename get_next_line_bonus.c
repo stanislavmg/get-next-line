@@ -1,38 +1,48 @@
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 char *get_next_line(int fd)
 {
-	char 			buf[BUFFER_SIZE];
+	char 			*buf;
 	static t_list	*list;
 	t_list			*last_fd;
 	char 			*r_val;
-	long 			inbuf;
-	long			count;
+	long 			in_buf;
+	long			ch_count;
 
 	r_val = NULL;
-	inbuf = 0;
+	buf = NULL;
+	in_buf = 0;
 	if (0 > fd || 0 >= BUFFER_SIZE || read(fd, buf, 0) < 0)
+		return (NULL);
+	buf = (char *)malloc(BUFFER_SIZE);
+	if (!buf)
 		return (NULL);
 	last_fd = search_fd(fd, list);
 	if (last_fd)
 	{
-		inbuf = get_line(&r_val, last_fd->str, ft_strlen(last_fd->str));
-		if (!inbuf)
-			del_list(&list, last_fd);
+		in_buf = get_line(&r_val, last_fd->str, ft_strlen(last_fd->str));
+		if (!in_buf)
+			del_node(&list, last_fd);
 		if ('\n' == r_val[ft_strlen(r_val) - 1])
+		{
+			free(buf);
 			return (r_val);
+		}
 	}
-	count = read(fd, buf, BUFFER_SIZE);
-	while (!inbuf && count)
+	ch_count = read(fd, buf, BUFFER_SIZE);
+	while (!in_buf && ch_count)
 	{
-		inbuf = get_line(&r_val, buf, count);
-		if (inbuf)
-			add_list(&list, buf, fd, inbuf);
+		in_buf = get_line(&r_val, buf, ch_count);
+		if (in_buf)
+			add_list(&list, buf, fd, in_buf);
 		if ('\n' == r_val[ft_strlen(r_val) - 1])
+		{
+			free(buf);
 			return (r_val);
-		count = read(fd, buf, BUFFER_SIZE);
+		}
+		ch_count = read(fd, buf, BUFFER_SIZE);
 	}
+	free(buf);
 	return (r_val);
 }
 
@@ -59,7 +69,7 @@ t_list	*search_fd(int fd, t_list *list)
 {
 	while (list)
 	{
-		if (list->node == fd)
+		if (list->file == fd)
 			return (list);
 		list = list->next;
 	}
@@ -76,15 +86,15 @@ void add_list(t_list **list, char *buf, int fd, long len)
 	current = *list;
 	new_node = (t_list *)malloc(sizeof(t_list));
     if (!new_node)
-        return;
+        return ;
     new_node->str = ft_strdup(buf, len);
     if (!new_node->str)
     {
         free(new_node);
         return ;
     }
-    new_node->node = fd;
-    while (current && fd > current->node)
+    new_node->file = fd;
+    while (current && fd > current->file)
     {
         prev = current;
         current = current->next;
@@ -96,36 +106,29 @@ void add_list(t_list **list, char *buf, int fd, long len)
     new_node->next = current;
 }
 
-void	del_list(t_list **list, t_list *node)
+void del_node(t_list **list, t_list *node)
 {
-	t_list	*tmp;
+    t_list *prev;
+    t_list *current;
 
-	if (*list == node)
+    prev = NULL;
+	current = *list;
+    if (current == node)
 	{
-		free((*list)->str);
-		free(*list);
-		*list = NULL;
-	}
-	else if ((*list)->next == node)
-	{
-		free((*list)->next->str);
-		free((*list)->next);
-		(*list)->next = NULL;
-	}
-	else if (node->next)
-	{
-		tmp = node->next;
-		free(node->str);
-		*node = *node->next;
-		free(tmp);
-	}
-	else if (!node->next)
-	{
-		tmp = *list;
-		while (tmp->next != node)
-			tmp = tmp->next;
-		free(node->str);
+        *list = node->next;
+        free(node->str);
 		free(node);
-		tmp->next = NULL;
-	}
+        return ;
+    }
+    while (current && current != node)
+	{
+        prev = current;
+        current = current->next;
+    }
+    if (current)
+	{
+        prev->next = current->next;
+		free(current->str);
+        free(current);
+    }
 }
