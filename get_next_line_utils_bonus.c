@@ -70,3 +70,14 @@ void	ft_memmove(char *dst, char *src, size_t len)
 	}
 	dst[i] = 0;
 }
+
+t_list	*search_file(int fd, t_list *list)
+{
+	while (list)
+	{
+		if (list->file == fd)
+			return (list);
+		list = list->next;
+	}
+	return (NULL);
+}
