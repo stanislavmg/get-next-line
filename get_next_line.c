@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoremyk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/24 13:25:24 by sgoremyk          #+#    #+#             */
+/*   Updated: 2024/03/24 13:27:23 by sgoremyk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
@@ -28,8 +40,7 @@ char	*handle_file_input(char *buf, int fd)
 		{
 			if ('\n' == buf[i] || ch - 1 == i)
 			{
-				i++;
-				line = ft_strjoin(line, buf, (size_t)i);
+				line = ft_strjoin(line, buf, (size_t)++i);
 				ft_memmove(buf, buf + i, (size_t)(ch - i));
 				i = ft_strlen(line) - 1;
 				if (line && '\n' == line[i])
