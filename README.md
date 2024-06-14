@@ -38,13 +38,13 @@ char *get_next_line(int fd);
 git clone https://github.com/stanislavmg/get-next-line.git
 ```
 
-1. **Compile the project**:
+2. **Compile the project**:
 
 ```bash
 cd gnl && make
 ```
 
-1. Include the header file and compile your project with `gnl.a`**:**
+3. **Include the header file and compile your project with** `gnl.a`**:**
 
 ```c
 #include "/path/to/get_next_line_bonus.h"
