@@ -48,5 +48,5 @@ cd gnl && make
 
 ```c
 #include "/path/to/get_next_line_bonus.h"
-gcc main.c get_next_line_bonus.a -o your_program
+gcc main.c gnl.a -o your_program
 ```
